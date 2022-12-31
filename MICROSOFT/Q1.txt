@@ -1,1 +1,51 @@
+Q.
+150. Evaluate Reverse Polish Notation
+You are given an array of strings tokens that represents an arithmetic expression in a Reverse Polish Notation.
 
+
+
+
+Intuition
+Looks like a Postfix Problem.So we'll evaluate postfix of it.
+
+Approach
+Postfix Calculation
+
+Code
+class Solution {
+    public int evalRPN(String[] tokens) {
+        Stack<Integer> st=new Stack<>();
+        for(int i=0;i<tokens.length;i++){
+            String ch=tokens[i];
+            //System.out.println(st);
+            if(ch.equals("+") || ch.equals("-") || ch.equals("*") || ch.equals("/")){
+                int v2=st.pop();
+                int v1=st.pop();
+                int oper=operation(v1,v2,ch);
+                st.push(oper);
+            }
+            else{
+                int n=Integer.parseInt(ch);
+                st.push(n);
+            }
+        }
+        return st.peek();
+    }
+    public static int operation(int v1,int v2,String ch){
+        if(ch.equals("+")){
+            return v1+v2;
+        }
+        else if(ch.equals("-")){
+            return v1-v2;
+        }
+        else if(ch.equals("*")){
+            return v1*v2;
+        }
+        else{
+            if(v2!=0){
+            return v1/v2;
+            }
+            return v1;
+        }
+    }
+}
