@@ -1,0 +1,72 @@
+368. Largest Divisible Subset
+
+First found out the largest length of subset that follows the condition and then took the values out of it using BFS.
+
+
+class Solution {
+    public static class Pair{
+        int idx;
+        int val;
+        int len;
+        String psf;
+        Pair(int idx,int val,int len,String psf){
+            this.idx=idx;
+            this.val=val;
+            this.len=len;
+            this.psf=psf;
+        }
+    }
+    public List<Integer> largestDivisibleSubset(int[] nums) {
+        Arrays.sort(nums);
+        List<Integer> li=new ArrayList<>();
+        int dp[]=new int[nums.length];
+        dp[0]=1;
+        int idx=0;
+        int omax=dp[0];
+        for(int i=1;i<dp.length;i++){
+            int max=0;
+            for(int j=0;j<i;j++){
+                if(nums[i]%nums[j]==0 || nums[j]%nums[i]==0){
+                    max=Math.max(max,dp[j]);
+                   
+                }
+
+            }
+            dp[i]=max+1;
+            if(dp[i]>omax){
+                omax=dp[i];
+                idx=i;
+            }
+        }
+        //System.out.println(dp[dp.length-1]);
+        ArrayDeque<Pair> q=new ArrayDeque<>();
+        
+        q.add(new Pair(idx,nums[idx],omax,nums[idx]+""));
+        while(q.size()>0){
+            Pair rm=q.remove();
+            //li.add(rm.val);
+            if(rm.len==1){
+                System.out.println(rm.psf);
+                String s=rm.psf;
+                System.out.println(s);
+                String str[]=s.split(",");
+                for(int i=0;i<str.length;i++){
+                    String ob=str[i];
+                    int num=Integer.parseInt(ob);
+                    li.add(num);
+                }
+                return li;
+                }
+            
+            for(int j=rm.idx-1;j>=0;j--){
+                if(dp[j]==rm.len-1 && (rm.val%nums[j]==0 || nums[j]%rm.val==0)){
+                    q.add(new Pair(j,nums[j],dp[j],nums[j]+","+rm.psf));
+                }
+            }
+           // li.remove(li.size()-1);
+        
+        }
+        
+        return li;
+    }  
+}
