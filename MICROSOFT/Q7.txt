@@ -1,0 +1,72 @@
+207. Course Schedule
+
+
+Intuition
+
+
+Here we do this Via Topological Sort.
+What we do is that we get a stack of numbers where the stack represents the path of courses.
+After that stack is generated, we pop the elements from the stack and then put it in a hashmap with incresing index that means that the course at index 0 should be done before the course at index 1.
+So we traverse through the input and check if anywhere that fails,we return false
+
+Approach
+Topological Sort Using Stack
+
+Code
+class Solution {
+    public static class Edge{
+        int vtc;
+        int nbr;
+        Edge(int vtc,int nbr){
+            this.vtc=vtc;
+            this.nbr=nbr;
+        }
+    }
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        ArrayList<Edge>[] graph=new ArrayList[numCourses];
+        for(int i=0;i<numCourses;i++){
+            graph[i]=new ArrayList<>();
+        }
+
+        for(int i=0;i<prerequisites.length;i++){
+            Edge e=new Edge(prerequisites[i][1],prerequisites[i][0]);
+            graph[prerequisites[i][1]].add(e);
+        }
+        Stack<Integer> st=new Stack<>();
+        boolean[] visited=new boolean[numCourses];
+        for(int i=0;i<numCourses;i++){
+            if(visited[i]==false){
+                func(graph,i,visited,st);
+            }
+        }
+       
+       System.out.println(st);
+       System.out.println(st.peek());
+        HashMap<Integer,Integer> map=new HashMap<>();
+        int idx=0;
+        while(st.size()>0){
+            int num=st.pop();
+            map.put(num,idx);
+            idx++;
+        }
+        System.out.println(map);
+        for(int i=0;i<prerequisites.length;i++){
+            
+                int first=prerequisites[i][0];
+                int second=prerequisites[i][1];
+                if(map.get(first)<=map.get(second)){
+                    return false;
+                }
+        }
+        return true;
+    }
+    public static void func(ArrayList<Edge>[] graph,int src,boolean[] visited,Stack<Integer> st){
+            visited[src]=true;
+            for(Edge e:graph[src]){
+                if(visited[e.nbr]==false){
+                    func(graph,e.nbr,visited,st);
+                }
+            }
+            st.push(src);
+    }
+}
