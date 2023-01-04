@@ -1,0 +1,51 @@
+Intuition
+We need to check if the elements of 2nd array are divisible or not so we find the gcd of it and then sort the first array and for every element from start check if it can divide the gcd or not.if not increase count else return the count
+
+Approach
+Recursion in GCD
+
+Complexity
+Time complexity:
+O(nlogn+n+n);
+
+
+If you didn't understand,Mail me @piyushchhawachharia@gmail.com and I'll explain that to you one-on-one.
+The Coding Community Always Sticks Together! :)
+
+Code
+class Solution {
+    public int minOperations(int[] nums, int[] numsDivide) {
+      
+      int n=findgcd(numsDivide,numsDivide.length);
+       
+
+        Arrays.sort(nums);
+        int  ct=0;
+        for(int i=0;i<nums.length;i++){
+            if(n%nums[i]==0){
+                return ct;
+            }
+            else{
+                ct++;
+            }
+        }
+        return -1;
+    }
+    public static int gcd(int e,int f){
+        if(e==0){
+            return f;
+        }
+        return gcd(f%e,e);
+    }
+    public static int findgcd(int[] arr,int n){
+        int f=arr[0];
+        for(int e:arr){
+            f=gcd(e,f);
+
+            if(f==1){
+                return 1;
+            }
+        }
+        return f;
+    }
+}
