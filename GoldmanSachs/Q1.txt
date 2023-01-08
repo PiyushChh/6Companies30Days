@@ -1,6 +1,6 @@
 
 If a point lies on a line,the slope will be same.
-
+//
 
 
 
