@@ -1,0 +1,33 @@
+First tried solving it numerically, was able to pass 252/255 test cases
+-The test case where the points form a rhombus and not a square 
+-so needed to find angle for it
+-so went with this approach
+-that stores the distance of 4 sides and two diagonals
+-the set size should be 2
+-1 for sqaure side size and 1 for diagonal size
+
+
+
+class Solution {
+    public boolean validSquare(int[] p1, int[] p2, int[] p3, int[] p4) {
+        HashSet<Integer> set=new HashSet<>();
+
+        set.add(distance(p1,p2));
+        set.add(distance(p1,p3));
+        set.add(distance(p1,p4));
+        set.add(distance(p2,p3));
+        set.add(distance(p2,p4));
+        set.add(distance(p3,p4));
+
+        if(set.size()==2 && !set.contains(0)){
+            return true;
+        }
+        return false;
+    }
+    public static int distance(int[]p1,int[]p2){
+        int x=(p2[0]-p1[0])*(p2[0]-p1[0]);
+        int y=(p2[1]-p1[1])*(p2[1]-p1[1]);
+
+        return x+y;
+    }
+}
