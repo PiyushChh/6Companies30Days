@@ -1,0 +1,42 @@
+class Solution {
+    public long goodTriplets(int[] nums1, int[] nums2) {
+
+    int n=nums1.length;
+    int pos[]=new int[n];
+    for(int i=0;i<n;i++){
+        pos[nums2[i]]=i;
+    }
+    long res=0;
+    FTree f=new FTree(n);        
+    for(int i=0;i<nums1.length;i++){
+        int idx=pos[nums1[i]];
+        long left=f.query(idx);
+        long right=n-1-i-idx+left;
+        res+=(left*right);
+        f.update(idx+1,1);
+    }
+    return res;
+        
+    }
+    class FTree{
+        private int[] tree;
+        FTree(int n){
+            tree=new int[n+2];
+        }
+        private int lsb(int i){
+            return i&(-i);
+        }
+        public int query(int i){
+            int sum=0;
+            for(;i>0;i-=lsb(i)){
+                sum+=tree[i];
+            }
+            return sum;
+        }
+        public void update(int i,int val){
+            for(;i<tree.length;i+=lsb(i)){
+                tree[i]+=val;
+            }
+        }
+    }
+}
