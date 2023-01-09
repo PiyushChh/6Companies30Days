@@ -1,0 +1,31 @@
+class Solution {
+    int points=0;
+    int ans[]=new int[12];
+    public int[] maximumBobPoints(int numArrows, int[] aliceArrows) {
+        int bob[]=new int[12];
+        func(11,numArrows,aliceArrows,0,bob);
+        return ans;
+    }
+    public void func(int idx,int num,int[] alice,int point,int[] bob){
+         if(idx==0){
+             
+             if(point>points){
+                 points=point;
+                 bob[idx]=num;
+                 ans=bob.clone();
+             }
+             
+             return;
+         }
+
+
+        if(num>=(alice[idx]+1)){
+        bob[idx]=alice[idx]+1;
+        func(idx-1,num-alice[idx]-1,alice,point+idx,bob);
+        bob[idx]=0;
+        }
+        func(idx-1,num,alice,point,bob);
+        //bob[idx]=0;
+        return;
+    }
+}
