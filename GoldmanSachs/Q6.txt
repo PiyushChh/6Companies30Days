@@ -1,0 +1,55 @@
+First Thought of Doing this with DP.
+for every element in nums,we start checking from last to first if a pair exists,if a pair is found,
+we store that index of the pair and then in the end we traverse the dp array and check for min value
+
+class Solution {
+    public int minimumCardPickup(int[] cards) {
+        int dp[]=new int[cards.length];
+        Arrays.fill(dp,-1);
+        for(int i=0;i<cards.length;i++){
+            for(int j=i-1;j>=0;j--){
+                if(cards[j]==cards[i]){
+                    dp[i]=j;
+                    break;
+                }
+            }
+        }
+        int max=-1;
+        for(int j=0;j<dp.length;j++){
+            if(dp[j]!=-1){
+                int pos=j-dp[j]+1;
+                if(max==-1){
+                    max=pos;
+                }
+                else
+                max=Math.min(pos,max);
+            }
+        }
+        return max;
+    }
+}
+In HashMap,we traverse through the array, if an element already exists we check for the distance by checking the index of already existing element,
+and then move the recent index to this element and return the min element
+
+Code
+class Solution {
+    public int minimumCardPickup(int[] cards) {
+        HashMap<Integer,Integer> map=new HashMap<>();
+        int min=Integer.MAX_VALUE;
+        for(int i=0;i<cards.length;i++){
+            int n=cards[i];
+            if(map.containsKey(n)){
+                int pos=i-(map.get(n))+1;
+                map.put(n,i);
+                min=Math.min(pos,min);
+            }
+            else{
+                map.put(n,i);
+            }
+        }
+        if(min==Integer.MAX_VALUE){
+            return -1;
+        }
+        return min;
+    }
+}
