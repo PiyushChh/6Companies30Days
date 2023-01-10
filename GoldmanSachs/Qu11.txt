@@ -1,0 +1,106 @@
+Approach 1: Didn't work for duplicate values
+class Solution {
+    static class Pair{
+        String city;
+        int time;
+        int amount;
+        Pair(String city,int time,int amount){
+            this.city=city;
+            this.time=time;
+            this.amount=amount;
+        }
+    }
+
+    public List<String> invalidTransactions(String[] transactions) {
+        HashMap<String,Pair> map=new HashMap<>();
+        List<String>li=new ArrayList<>();
+
+        for(int i=0;i<transactions.length;i++){
+            String str=transactions[i];
+            System.out.println(str);
+
+
+            String split[]=str.split(",");
+
+            for(int j=0;j<split.length;j++){
+                System.out.println(split[j]);
+            }
+
+
+            if(Integer.parseInt(split[2])>1000){
+                li.add(str);
+            }
+
+            else if(map.containsKey(split[0])){
+                Pair rm=map.get(split[0]);
+                if(!rm.city.equals(split[3]) && Math.abs(rm.time-Integer.parseInt(split[1]))<=60){
+                    li.add(str);
+                    String s=split[0]+","+rm.time+","+rm.amount+","+rm.city+"";
+                    li.add(s);
+                }
+            }
+
+            map.put(split[0],new Pair(split[3],Integer.parseInt(split[1]),Integer.parseInt(split[2])));
+            System.out.println(map);
+        }
+        
+        return li;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+APPROACH 2:
+class Solution {
+    
+    public List<String> invalidTransactions(String[] transactions) {
+        
+        List<String>li=new ArrayList<>();
+
+        for(int i=0;i<transactions.length;i++){
+            String str=transactions[i];
+            System.out.println(str);
+           
+
+            String split[]=str.split(",");
+            String name=split[0];
+            int time=Integer.parseInt(split[1]);
+            int amt=Integer.parseInt(split[2]);
+            String city=split[3];
+
+            if(amt>1000){
+                li.add(str);
+                continue;
+            }
+            for(int j=0;j<transactions.length;j++){
+               
+
+                if(j!=i){
+                String str2=transactions[j];
+                String split2[]=str2.split(",");
+               String name2=split2[0];
+                int time2=Integer.parseInt(split2[1]);
+                int amt2=Integer.parseInt(split2[2]);
+                String city2=split2[3];
+                if(name2.equals(name) && !city2.equals(city) && Math.abs(time2-time)<=60){
+                    
+                    li.add(str);
+                    break;
+                }
+            }
+            
+            }
+            
+        }
+        return li;
+    }
+}
