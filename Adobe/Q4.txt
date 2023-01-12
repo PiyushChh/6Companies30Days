@@ -1,0 +1,42 @@
+class Solution {
+    public int magicalString(int n) {
+        StringBuilder str=new StringBuilder("122");
+        StringBuilder temp=new StringBuilder("122");
+        int p1=2;
+        int p2=2;
+        
+        while(str.length()<n){
+            if(temp.charAt(temp.length()-1)=='1'){
+                char ch=str.charAt(str.length()-1);
+                if(ch=='1'){
+                    str.append("2");
+                }
+                else{
+                    str.append("1");
+                }
+            }
+            else{
+                char ch=str.charAt(str.length()-1);
+                if(ch=='1'){
+                    str.append("2");
+                    str.append("2");
+                }
+                else{
+                    str.append("1");
+                    str.append("1");
+                }
+            }
+            p1++;
+            temp.append(str.charAt(p1));
+        }
+        System.out.println(str);
+        System.out.println(temp);
+        int ct=0;
+        for(int i=0;i<n;i++){
+            if(str.charAt(i)=='1'){
+                ct++;
+            }
+        }
+        return ct;
+    }
+}
