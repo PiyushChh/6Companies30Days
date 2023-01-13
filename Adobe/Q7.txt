@@ -1,0 +1,29 @@
+class Solution {
+    public int numMatchingSubseq(String s, String[] words) {
+        //int i=0;
+        int ct=0;
+        HashMap<String,Integer> map=new HashMap<>();
+        for(String word:words){
+            map.put(word,map.getOrDefault(word,0)+1);
+        }
+        for(String word:map.keySet()){
+            int i=0;
+            int k=0;
+            while(i<s.length() && k<word.length()){
+                if(s.charAt(i)==word.charAt(k)){
+                    i++;
+                    k++;
+                }
+                else{
+                    i++;
+                }
+            }
+            if(k==word.length()){
+                ct+=map.get(word);
+                
+            }
+            i=0;
+        }
+        return ct;
+    }
+}
