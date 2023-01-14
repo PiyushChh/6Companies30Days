@@ -1,0 +1,49 @@
+class StockPrice {
+    HashMap<Integer,Integer> map;
+    PriorityQueue<int[]> minh;
+    PriorityQueue<int[]> maxh;
+    int latesttime;
+    public StockPrice() {
+        map=new HashMap<>();
+        minh=new PriorityQueue<>((a,b)-> a[1]-b[1]);
+        maxh=new PriorityQueue<>((a,b)-> b[1]-a[1]);
+    }
+    
+    public void update(int timestamp, int price) {
+        map.put(timestamp,price);
+        minh.add(new int[]{timestamp,price});
+        maxh.add(new int[]{timestamp,price});
+        latesttime=Math.max(latesttime,timestamp);
+    }
+    
+    public int current() {
+        return map.get(latesttime);
+    }
+    
+    public int maximum() {
+        int[] max=maxh.peek();
+        while(map.get(max[0])!=max[1]){
+            maxh.remove();
+            max=maxh.peek();
+        }
+        return max[1];
+        }
+    
+    public int minimum() {
+        int[] min=minh.peek();
+        while(map.get(min[0])!=min[1]){
+            minh.remove();
+            min=minh.peek();
+        }
+        return min[1];
+    }
+}
+
+/**
+ * Your StockPrice object will be instantiated and called as such:
+ * StockPrice obj = new StockPrice();
+ * obj.update(timestamp,price);
+ * int param_2 = obj.current();
+ * int param_3 = obj.maximum();
+ * int param_4 = obj.minimum();
+ */
