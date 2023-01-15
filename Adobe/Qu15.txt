@@ -1,0 +1,34 @@
+class Solution {
+    static class Pair{
+        String val;
+        int idx;
+        Pair(String val,int idx){
+            this.val=val;
+            this.idx=idx;        }
+           
+    }
+    public int[] smallestTrimmedNumbers(String[] nums, int[][] queries) {
+        int ans[]=new int[queries.length];
+        int pos=0;
+        int len=nums[0].length();
+        
+        for(int[] q:queries){
+            PriorityQueue<Pair> pq= new PriorityQueue<>((a,b)-> b.val.compareTo(a.val)==0?b.idx-a.idx:b.val.compareTo(a.val));
+            int k=q[0];
+            int trim=q[1];
+            for(int i=0;i<nums.length;i++){
+                String num=nums[i];
+                num=num.substring(len-trim);
+                Pair p=new Pair(num,i);
+                pq.offer(p);
+                if(pq.size()>k){
+                    pq.remove();
+                }
+            }
+            
+            ans[pos++]=pq.remove().idx;
+           
+        }
+        return ans;
+    }
+}
