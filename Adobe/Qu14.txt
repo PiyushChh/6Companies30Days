@@ -1,0 +1,19 @@
+class Solution {
+    public int peopleAwareOfSecret(int n, int delay, int forget) {
+        long dp[]=new long[n+1];
+        dp[1]=1;
+        long nts=0;
+        int mod=(int)(Math.pow(10,9)+7);
+        for(int i=2;i<=n;i++){
+            long news=dp[Math.max(i-delay,0)];
+            long forg=dp[Math.max(i-forget,0)];
+            nts+=(news-forg+mod)%mod;
+            dp[i]=nts;
+        }
+        long sum=0;
+        for(int i=n-forget+1;i<=n;i++){
+            sum+=dp[i];
+        }
+        return (int)(sum%mod);
+    }
+}
