@@ -1,0 +1,36 @@
+class Solution {
+    public int calculateMinimumHP(int[][] dungeon) {
+        int m=dungeon.length;
+        int n=dungeon[0].length;
+        int dp[][]=new int[m][n];
+        for(int[] row:dp){
+            Arrays.fill(row,-1);
+        }
+       return func(0,0,dungeon,dp);
+       
+    }
+    public int func(int i,int j,int[][] arr,int[][] dp){
+        
+        if(i==arr.length-1 && j==arr[0].length-1){
+            return arr[i][j]>0?1:-arr[i][j]+1;
+        }
+        if(i>=arr.length || j>=arr[0].length){
+            return (int)(Math.pow(10,9)+7);
+        }
+        if(dp[i][j]!=-1){
+            return dp[i][j];
+        }
+        int up=Integer.MIN_VALUE;
+        int left=Integer.MIN_VALUE;
+
+         up=func(i+1,j,arr,dp);
+         left=func(i,j+1,arr,dp);
+        int ans=Math.min(up,left)-arr[i][j];
+        
+        int res=Math.max(1,ans);
+      
+        
+        
+        return dp[i][j]=res;
+    }
+}
