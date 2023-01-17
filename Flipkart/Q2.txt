@@ -1,0 +1,43 @@
+class Solution {
+    public int shoppingOffers(List<Integer> price, List<List<Integer>> special, List<Integer> needs) {
+        int need[]=new int[needs.size()];
+        for(int i=0;i<needs.size();i++){
+            need[i]=needs.get(i);
+        }
+        return func(price,special,need,0);
+    }
+    public int func(List<Integer> price,List<List<Integer>> special,int[] needs,int offer){
+        //no special offers left
+        if(offer==special.size()){
+            int temp=0;
+            for(int j=0;j<price.size();j++){
+                temp+=price.get(j)*needs[j];
+            }
+            //return the last price
+            return temp;
+        }
+
+        //we dont take the offer
+        int ntake=0+func(price,special,needs,offer+1);
+
+        boolean okay=true;
+        int[] temp=needs.clone();
+        int n=needs.length;
+        for(int j=0;j<n;j++){
+            //we use the offer-needs get subtracted
+            temp[j]=temp[j]-special.get(offer).get(j);
+            //anywhere needs get -ve we cant accept the offer so reject it
+            if(temp[j]<0){
+                okay=false;
+                break;
+            }
+        }
+        int take=Integer.MAX_VALUE;
+        if(okay){
+            //we take the offer only if it is acceptable
+            take=special.get(offer).get(n)+func(price,special,temp,offer);
+        }
+
+        return Math.min(take,ntake);
+    }
+}
