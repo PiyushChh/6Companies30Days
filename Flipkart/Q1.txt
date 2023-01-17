@@ -1,0 +1,38 @@
+class Solution {
+    public boolean canPartitionKSubsets(int[] nums, int k) {
+        int sum=0;
+        for(int i=0;i<nums.length;i++){
+            sum+=nums[i];
+        }
+        if(sum%k!=0){
+            return false;
+        }
+        int target=sum/k;
+        boolean[] visited=new boolean[nums.length];
+        return func(nums.length-1,k,visited,nums,0,target);
+
+    }
+    public boolean func(int idx,int k,boolean[] visited,int[] nums,int ss,int target){
+        if(k==0){
+            return true;
+        }
+        if(ss==target){
+            return func(nums.length-1,k-1,visited,nums,0,target);
+        }
+
+        for(int j=0;j<=idx;j++){
+            if(visited[j]==false && ss+nums[j]<=target){
+                visited[j]=true;
+                if(func(j-1,k,visited,nums,ss+nums[j],target)){
+                    return true;
+                }
+
+                visited[j]=false;
+            }
+            else{
+                continue;
+            }
+        }
+        return false;
+    }
+}
