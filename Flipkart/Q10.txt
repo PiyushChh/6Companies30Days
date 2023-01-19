@@ -1,0 +1,45 @@
+class Solution {
+    public int[] rearrangeBarcodes(int[] barcodes) {
+        int[] ans=new int[barcodes.length];
+        HashMap<Integer,Integer> map=new HashMap<>();
+        for(int num:barcodes){
+            map.put(num,map.getOrDefault(num,0)+1);
+        }
+        int maxnum=0;
+        int max=Integer.MIN_VALUE;
+        for(int num:map.keySet()){
+            int freq=map.get(num);
+            if(freq>max){
+                max=freq;
+                maxnum=num;
+            }
+        }
+        int idx=0;
+        while(max>0){
+            ans[idx]=maxnum;
+            idx+=2;
+            max--;
+        }
+
+        map.remove(maxnum);
+        System.out.println(map);
+
+        for(int num:map.keySet()){
+            int freq=map.get(num);
+            if(idx>=ans.length){
+                idx=1;
+            }
+            while(freq>0){
+                ans[idx]=num;
+                idx+=2;
+                freq--;
+                if(idx>=ans.length){
+                    idx=1;
+                }
+            }
+        }
+
+
+        return ans;
+    }
+}
